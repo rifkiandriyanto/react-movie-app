@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import PagNav from '../components/shared/pagination/PagNav';
 import NavBar from '../components/shared/nav/NavBar';
-import { getNowPlaying, selectNode } from '../reducers/node';
+import { getNowPlaying, getMoviebyQuery, selectNode } from '../reducers/node';
 import { useAppDispatch, useAppSelector } from '../store/configureStore';
 import { useNavigate } from 'react-router-dom';
 
@@ -17,6 +17,10 @@ const MoviesList = () => {
     dispatch(getNowPlaying(page));
   }, [dispatch, params.page]);
 
+  const handleSearchMovie = (query: string) => {
+    dispatch(getMoviebyQuery(query));
+  };
+
   const pageHandler = (page: string) => {
     console.log('pageHandler', page);
     // setPageSelected(page);
@@ -27,7 +31,7 @@ const MoviesList = () => {
 
   return (
     <React.Fragment>
-      <NavBar />
+      <NavBar handleSearch={handleSearchMovie} />
       <section>
         <div className='row m-3'>
           {node.data.results?.map((result) => (

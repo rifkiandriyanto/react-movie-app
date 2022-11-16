@@ -29,7 +29,6 @@ export const getPopularMovie = createAsyncThunk(
   }
 );
 
-
 export const getTrandingMovie = createAsyncThunk(
   'node/getTrandingMovie',
   async (page: string) => {
@@ -41,6 +40,16 @@ export const getTrandingMovie = createAsyncThunk(
   }
 );
 
+export const getMoviebyQuery = createAsyncThunk(
+  'node/getMoviebyQuery',
+  async ( query: string) => {
+    const response = await fetch(
+      `https://api.themoviedb.org/3/search/movie?query=${query}&page=1&api_key=5d34d9d23f930581162aeff03ad62f10`
+    );
+    const data = await response.json();
+    return data;
+  }
+);
 
 const nodeSlice = createSlice({
   name: 'node',
@@ -80,6 +89,18 @@ const nodeSlice = createSlice({
       state.loading = false;
     });
     builder.addCase(getTrandingMovie.rejected, (state) => {
+      state.loading = false;
+    });
+
+    // get movie by query
+    builder.addCase(getMoviebyQuery.pending, (state) => {
+      state.loading = true;
+    });
+    builder.addCase(getMoviebyQuery.fulfilled, (state, action) => {
+      state.data = action.payload;
+      state.loading = false;
+    });
+    builder.addCase(getMoviebyQuery.rejected, (state) => {
       state.loading = false;
     });
   },

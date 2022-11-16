@@ -2,7 +2,11 @@ import React, { useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import PagNav from '../components/shared/pagination/PagNav';
 import NavBar from '../components/shared/nav/NavBar';
-import { getTrandingMovie, selectNode } from '../reducers/node';
+import {
+  getTrandingMovie,
+  selectNode,
+  getMoviebyQuery,
+} from '../reducers/node';
 import { useAppDispatch, useAppSelector } from '../store/configureStore';
 import { useNavigate } from 'react-router-dom';
 
@@ -17,6 +21,10 @@ const TrandingMovie = () => {
     dispatch(getTrandingMovie(page));
   }, [dispatch, params.page]);
 
+  const handleSearchMovie = (query: string) => {
+    dispatch(getMoviebyQuery(query));
+  };
+
   const pageHandler = (page: string) => {
     console.log('pageHandler', page);
     // setPageSelected(page);
@@ -27,7 +35,8 @@ const TrandingMovie = () => {
 
   return (
     <React.Fragment>
-      <NavBar />
+      <NavBar handleSearch={handleSearchMovie} />
+
       <section>
         <div className='row m-3'>
           {node.data.results?.map((result) => (

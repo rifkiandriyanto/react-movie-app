@@ -1,6 +1,4 @@
 import Pagination from 'react-bootstrap/Pagination';
-import Container from 'react-bootstrap/Container';
-import PageItem from 'react-bootstrap/PageItem';
 interface Pages {
   page: number;
   totalPages: number;
